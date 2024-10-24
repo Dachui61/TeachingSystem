@@ -1,0 +1,70 @@
+/* 统一圆角设置 */
+#left_bar,#right_workspace,#main_view,#widget_5,QPushButton,#widget_2 {
+    border-radius: 8px; /* 设置统一圆角 */
+}
+#label_3,#label_4{
+    background-color: rgb(186, 186, 186);
+    border-radius: 8px; /* 设置统一圆角 */
+}
+#widget_2 {
+    background-color: rgb(229, 229, 229);
+}
+/* Left Bar Styling */
+#left_bar {
+    background-color: rgb(229, 229, 229);
+    border-right: 1px solid rgb(200, 200, 200); /* 添加右边框以区分 */
+}
+
+/* Main View Background */
+#main_view {
+    background-image: url(:/img/bg.jpg); /* 确保图片路径正确 */
+    background-repeat: no-repeat; /* 不重复背景图 */
+    background-position: center; /* 居中背景图 */
+    background-size: cover; /* 背景图片保持纵横比并覆盖整个区域 */
+}
+
+/* Widget 5 Background */
+#widget_5 {
+    background-color: rgb(242, 242, 242);
+    border: 1px solid rgb(200, 200, 200); /* 添加边框 */
+    padding: 10px; /* 内边距 */
+}
+
+/* QListView Styling */
+QListView {
+    border: none; /* 移除边框 */
+    background-color: transparent; /* 透明背景 */
+}
+
+/* QListView Item Hover Effect */
+QListView::item {
+    padding: 8px; /* 为每个项增加内边距 */
+}
+QListView::item:hover {
+    background-color: rgb(200, 200, 200); /* 悬停时背景色 */
+}
+
+/* Text Styling for Labels in the Left Bar */
+#left_bar QLabel {
+    font-size: 14px; /* 字体大小 */
+    color: rgb(50, 50, 50); /* 字体颜色 */
+}
+
+
+/* Button Styling */
+#pushButton,#pushButton_2,#pushButton_3,#pushButton_4{
+
+}
+
+QPushButton {
+    background-color: rgb(233, 233, 233);
+    color: black; /* 按钮文字颜色设为黑色 */
+    border: none; /* 移除按钮边框 */
+    padding: 10px; /* 内边距 */
+}
+QPushButton:hover {
+    background-color: rgb(100, 100, 100); /* 悬停效果 */
+    color: white; /* 按钮文字颜色设为黑色 */
+}
+
+/* Add similar styles for other widgets as needed */
