@@ -11,8 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     ui->setupUi(this);
-    menuBar()->hide();   // 隐藏菜单栏
-    statusBar()->hide();  // 隐藏状态栏
+    // menuBar()->hide();   // 隐藏菜单栏
+    // statusBar()->hide();  // 隐藏状态栏
 
     // 创建 QListView
     QListView* listView = ui->listView;
@@ -67,3 +67,12 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    // 创建 CameraView 并设置为全屏
+    CameraView* camview = new CameraView();
+    camview->setAttribute(Qt::WA_DeleteOnClose);  // 关闭时自动删除
+    camview->showFullScreen();  // 显示为全屏
+}
+
