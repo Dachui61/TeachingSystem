@@ -12,12 +12,14 @@ SOURCES += \
     cameraview.cpp \
     const.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    videoplayer.cpp
 
 HEADERS += \
     cameraview.h \
     const.h \
-    mainwindow.h
+    mainwindow.h \
+    videoplayer.h
 
 FORMS += \
     cameraview.ui \
