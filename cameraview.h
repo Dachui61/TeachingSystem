@@ -25,6 +25,10 @@ class CameraView : public QWidget
 
 public:
     CameraView(QWidget *parent = nullptr);
+    // 新的构造函数，接受设备参数
+    CameraView(const QString& ip, int port, const QString& username, const QString& password,
+               int lChannel, int dwStreamType, int dwLinkMode, int bBlocked , QWidget *parent = nullptr);
+    CameraView(const QString& ip, int port, const QString& username, const QString& password, QWidget *parent = nullptr);
     ~CameraView();
     void do_slots(slotName sName);  // 根据 slotName 调用不同的槽函数
 
@@ -38,7 +42,7 @@ private slots:
     void showContextMenu(const QPoint &pos);
     void startRecordingSlot();
     void stopRecordingSlot();
-    // void viewHistorySlot();  // 取消注释并实现槽函数
+    void viewHistorySlot();  // 取消注释并实现槽函数
 
 private:
     QLabel *videoLabel;

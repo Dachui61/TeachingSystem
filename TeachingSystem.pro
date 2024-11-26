@@ -1,4 +1,6 @@
 QT       += core gui
+QT += multimedia
+QT += multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,19 +12,26 @@ CONFIG += c++17
 
 SOURCES += \
     cameraview.cpp \
+    comparisondialog.cpp \
     const.cpp \
+    devicesmgr.cpp \
     main.cpp \
     mainwindow.cpp \
+    singleton.cpp \
     videoplayer.cpp
 
 HEADERS += \
     cameraview.h \
+    comparisondialog.h \
     const.h \
+    devicesmgr.h \
     mainwindow.h \
+    singleton.h \
     videoplayer.h
 
 FORMS += \
     cameraview.ui \
+    comparisondialog.ui \
     mainwindow.ui
 
 # 设置HKVISION库的路径

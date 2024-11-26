@@ -30,20 +30,6 @@
     padding: 10px; /* 内边距 */
 }
 
-/* QListView Styling */
-QListView {
-    border: none; /* 移除边框 */
-    background-color: transparent; /* 透明背景 */
-}
-
-/* QListView Item Hover Effect */
-QListView::item {
-    padding: 8px; /* 为每个项增加内边距 */
-}
-QListView::item:hover {
-    background-color: rgb(200, 200, 200); /* 悬停时背景色 */
-}
-
 /* Text Styling for Labels in the Left Bar */
 #left_bar QLabel {
     font-size: 14px; /* 字体大小 */
@@ -68,3 +54,11 @@ QPushButton:hover {
 }
 
 /* Add similar styles for other widgets as needed */
+QListWidget::item:selected {
+    background-color: transparent; /* 确保选中项不会有特殊背景色 */
+    border: none; /* 取消选中项的边框 */
+}
+
+QListWidget::item:focus {
+    outline: none; /* 去除焦点时的外框 */
+}

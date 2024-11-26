@@ -1,0 +1,48 @@
+{
+    "teacherDevice": {
+        "ip": "10.16.26.167",
+        "port": "8000",
+        "username": "admin",
+        "password": "abcd1234",
+        "lChannel": "1",
+        "//lChannel": "通道号",
+        "dwStreamType": "0",
+        "//dwStreamType": "主码流",
+        "dwLinkMode": "0",
+        "//dwLinkMode": "TCP模式",
+        "bBlocked": "1",
+        "//bBlocked": "阻塞方式"
+    },
+
+    "devices": {
+        "device1": {
+            "ip": "10.16.26.167",
+            "port": "8000",
+            "username": "admin",
+            "password": "abcd1234",
+            "lChannel": "1",
+            "//lChannel": "通道号",
+            "dwStreamType": "0",
+            "//dwStreamType": "主码流",
+            "dwLinkMode": "0",
+            "//dwLinkMode": "TCP模式",
+            "bBlocked": "1",
+            "//bBlocked": "阻塞方式"
+        },
+        "device2": {
+            "ip": "10.16.26.173",
+            "port": "8000",
+            "username": "admin",
+            "password": "abcd1234",
+            "lChannel": "1",
+            "//lChannel": "通道号",
+            "dwStreamType": "0",
+            "//dwStreamType": "主码流",
+            "dwLinkMode": "0",
+            "//dwLinkMode": "TCP模式",
+            "bBlocked": "1",
+            "//bBlocked": "阻塞方式"
+        }
+    }
+
+}

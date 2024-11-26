@@ -11,8 +11,8 @@
 #include <QMenu>
 #include <QMouseEvent>
 #include <QFileDialog>
-// #include <QMediaPlayer>
-// #include <QVideoWidget>
+#include <QMediaPlayer>
+#include <QVideoWidget>
 #include <QDir>
 #include <QUrl>
 #include <QDateTime>
@@ -38,6 +38,98 @@ CameraView::CameraView(QWidget *parent)
     loginInfo.wPort = 8000; // 设备端口
     strcpy(loginInfo.sUserName, "admin"); // 用户名
     strcpy(loginInfo.sPassword, "abcd1234"); // 密码
+
+    NET_DVR_DEVICEINFO_V40 deviceInfo = {0};
+    lUserID = NET_DVR_Login_V40(&loginInfo, &deviceInfo);
+    if (lUserID < 0) {
+        qDebug() << "Login error, error code:" << NET_DVR_GetLastError();
+        return ;
+    }
+
+    // 设置预览参数
+    NET_DVR_PREVIEWINFO previewInfo = {0};
+    previewInfo.hPlayWnd = reinterpret_cast<HWND>(this->winId()); // 传递窗口句柄
+    previewInfo.lChannel = 1; // 通道号
+    previewInfo.dwStreamType = 0; // 主码流
+    previewInfo.dwLinkMode = 0; // TCP模式
+    previewInfo.bBlocked = 1; // 阻塞方式
+
+    // 启动预览
+    lRealPlayHandle = NET_DVR_RealPlay_V40(lUserID, &previewInfo, nullptr, nullptr);
+    if (lRealPlayHandle < 0) {
+        qDebug() << "RealPlay error, error code:" << NET_DVR_GetLastError();
+        return;
+    }
+}
+
+CameraView::CameraView(const QString& ip, int port, const QString& username, const QString& password,
+                       int lChannel, int dwStreamType, int dwLinkMode, int bBlocked, QWidget *parent)
+    : QWidget(parent), lUserID(-1), lRealPlayHandle(-1), isRecording(false) {
+
+    recordSavePath = QCoreApplication::applicationDirPath();
+    QDir dir(recordSavePath);
+    dir.mkdir("savedVideo");
+    recordSavePath = recordSavePath + "/savedVideo";
+    qDebug() << recordSavePath;
+
+    // 设置窗口默认大小为 320x240
+    resize(320, 240);
+
+    // 初始化SDK
+    NET_DVR_Init();
+
+    // 设置设备信息
+    NET_DVR_USER_LOGIN_INFO loginInfo = {0};
+    strcpy(loginInfo.sDeviceAddress, ip.toStdString().c_str()); // 设备IP
+    loginInfo.wPort = port; // 设备端口
+    strcpy(loginInfo.sUserName, username.toStdString().c_str()); // 用户名
+    strcpy(loginInfo.sPassword, password.toStdString().c_str()); // 密码
+
+    NET_DVR_DEVICEINFO_V40 deviceInfo = {0};
+    lUserID = NET_DVR_Login_V40(&loginInfo, &deviceInfo);
+    if (lUserID < 0) {
+        qDebug() << "Login error, error code:" << NET_DVR_GetLastError();
+        return;
+    }
+
+    // 设置预览参数
+    NET_DVR_PREVIEWINFO previewInfo = {0};
+    previewInfo.hPlayWnd = reinterpret_cast<HWND>(this->winId()); // 传递窗口句柄
+    previewInfo.lChannel = lChannel; // 通道号
+    previewInfo.dwStreamType = dwStreamType; // 主码流
+    previewInfo.dwLinkMode = dwLinkMode; // TCP模式
+    previewInfo.bBlocked = bBlocked; // 阻塞方式
+
+    // 启动预览
+    lRealPlayHandle = NET_DVR_RealPlay_V40(lUserID, &previewInfo, nullptr, nullptr);
+    if (lRealPlayHandle < 0) {
+        qDebug() << "RealPlay error, error code:" << NET_DVR_GetLastError();
+        return;
+    }
+}
+
+
+CameraView::CameraView(const QString& ip, int port, const QString& username, const QString& password, QWidget *parent)
+    : QWidget(parent), lUserID(-1), lRealPlayHandle(-1), isRecording(false) {
+
+    recordSavePath = QCoreApplication::applicationDirPath();
+    QDir dir(recordSavePath);
+    dir.mkdir("savedVideo");
+    recordSavePath = recordSavePath + "/savedVideo";
+    qDebug() << recordSavePath;
+
+    // 设置窗口默认大小为 320x240
+    resize(320, 240);
+
+    // 初始化SDK
+    NET_DVR_Init();
+
+    // 设置设备信息
+    NET_DVR_USER_LOGIN_INFO loginInfo = {0};
+    strcpy(loginInfo.sDeviceAddress, ip.toStdString().c_str()); // 设备IP
+    loginInfo.wPort = port; // 设备端口
+    strcpy(loginInfo.sUserName, username.toStdString().c_str()); // 用户名
+    strcpy(loginInfo.sPassword, password.toStdString().c_str()); // 密码
 
     NET_DVR_DEVICEINFO_V40 deviceInfo = {0};
     lUserID = NET_DVR_Login_V40(&loginInfo, &deviceInfo);
@@ -121,9 +213,9 @@ void CameraView::showContextMenu(const QPoint &pos) {
     connect(&actionStopRecording, &QAction::triggered, this, &CameraView::stopRecordingSlot);
     contextMenu.addAction(&actionStopRecording);
 
-    // QAction actionViewHistory(tr("查看历史录屏文件"), this);
-    // connect(&actionViewHistory, &QAction::triggered, this, &CameraView::viewHistorySlot);
-    // contextMenu.addAction(&actionViewHistory);
+    QAction actionViewHistory(tr("查看历史录屏文件"), this);
+    connect(&actionViewHistory, &QAction::triggered, this, &CameraView::viewHistorySlot);
+    contextMenu.addAction(&actionViewHistory);
 
     contextMenu.exec(mapToGlobal(pos));
 }
@@ -161,25 +253,25 @@ void CameraView::stopRecordingSlot() {
     }
 }
 
-// void CameraView::viewHistorySlot() {
-//     QString fileName = QFileDialog::getOpenFileName(this, tr("打开录像文件"), "", tr("录像文件 (*.mp4)"));
-//     if (fileName.isEmpty()) return;
+void CameraView::viewHistorySlot() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("打开录像文件"), "", tr("录像文件 (*.mp4)"));
+    if (fileName.isEmpty()) return;
 
-//     QDialog *playbackDialog = new QDialog(this);
-//     playbackDialog->setWindowTitle(tr("历史录像"));
+    QDialog *playbackDialog = new QDialog(this);
+    playbackDialog->setWindowTitle(tr("历史录像"));
 
-//     QVBoxLayout *dialogLayout = new QVBoxLayout(playbackDialog);
-//     QVideoWidget *videoWidget = new QVideoWidget(playbackDialog);
-//     dialogLayout->addWidget(videoWidget);
+    QVBoxLayout *dialogLayout = new QVBoxLayout(playbackDialog);
+    QVideoWidget *videoWidget = new QVideoWidget(playbackDialog);
+    dialogLayout->addWidget(videoWidget);
 
-//     QMediaPlayer *player = new QMediaPlayer(playbackDialog);
-//     player->setVideoOutput(videoWidget);
-//     player->setSource(QUrl::fromLocalFile(fileName));
+    QMediaPlayer *player = new QMediaPlayer(playbackDialog);
+    player->setVideoOutput(videoWidget);
+    player->setSource(QUrl::fromLocalFile(fileName));
 
-//     playbackDialog->resize(640, 480);
-//     playbackDialog->show();
-//     player->play();
-// }
+    playbackDialog->resize(640, 480);
+    playbackDialog->show();
+    player->play();
+}
 
 void CameraView::convertVideo(const QString &inputFile, const QString &outputFile) {
     QProcess process;

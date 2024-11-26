@@ -12,6 +12,11 @@ DevicesMgr::DevicesMgr() {
     main_dev = Device("10.16.26.167",8000, "admin","abcd1234");
 
     devices.push_back({"10.16.41.20", 8001, "admin", "cqupt2210", 1, 0, 0, 1});
+    devices.push_back({"10.16.41.20", 8001, "admin", "cqupt2210", 1, 0, 0, 1});
+    devices.push_back({"10.16.41.20", 8001, "admin", "cqupt2210", 1, 0, 0, 1});
+    devices.push_back({"10.16.41.20", 8001, "admin", "cqupt2210", 1, 0, 0, 1});
+    devices.push_back({"10.16.41.20", 8001, "admin", "cqupt2210", 1, 0, 0, 1});
+
 
 }
 DevicesMgr::~DevicesMgr() {

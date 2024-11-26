@@ -14,7 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
@@ -56,9 +56,8 @@ public:
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
     QSpacerItem *verticalSpacer_3;
-    QWidget *scroll_wgt;
-    QVBoxLayout *verticalLayout_4;
-    QListView *listView;
+    QListWidget *listWidget;
+    QSpacerItem *verticalSpacer_6;
     QWidget *left_bar;
     QVBoxLayout *verticalLayout_2;
     QLabel *label;
@@ -74,9 +73,9 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(800, 500);
-        MainWindow->setMinimumSize(QSize(800, 500));
-        MainWindow->setMaximumSize(QSize(800, 500));
+        MainWindow->resize(768, 500);
+        MainWindow->setMinimumSize(QSize(750, 500));
+        MainWindow->setMaximumSize(QSize(768, 500));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         horizontalLayout = new QHBoxLayout(centralwidget);
@@ -234,24 +233,17 @@ public:
 
         verticalLayout_3->addWidget(widget_5);
 
-        scroll_wgt = new QWidget(right_workspace);
-        scroll_wgt->setObjectName("scroll_wgt");
-        scroll_wgt->setMinimumSize(QSize(100, 150));
-        scroll_wgt->setMaximumSize(QSize(16777215, 150));
-        verticalLayout_4 = new QVBoxLayout(scroll_wgt);
-        verticalLayout_4->setSpacing(0);
-        verticalLayout_4->setObjectName("verticalLayout_4");
-        verticalLayout_4->setContentsMargins(0, 0, 0, 0);
-        listView = new QListView(scroll_wgt);
-        listView->setObjectName("listView");
-        listView->setMinimumSize(QSize(100, 150));
-        listView->setMaximumSize(QSize(16777215, 150));
-        listView->setSpacing(0);
+        listWidget = new QListWidget(right_workspace);
+        listWidget->setObjectName("listWidget");
+        listWidget->setMinimumSize(QSize(100, 130));
+        listWidget->setMaximumSize(QSize(16777215, 130));
+        listWidget->setSpacing(0);
 
-        verticalLayout_4->addWidget(listView);
+        verticalLayout_3->addWidget(listWidget);
 
+        verticalSpacer_6 = new QSpacerItem(20, 37, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
-        verticalLayout_3->addWidget(scroll_wgt);
+        verticalLayout_3->addItem(verticalSpacer_6);
 
 
         horizontalLayout_2->addWidget(right_workspace);
@@ -263,10 +255,12 @@ public:
         sizePolicy3.setVerticalStretch(0);
         sizePolicy3.setHeightForWidth(left_bar->sizePolicy().hasHeightForWidth());
         left_bar->setSizePolicy(sizePolicy3);
-        left_bar->setMinimumSize(QSize(80, 0));
-        left_bar->setMaximumSize(QSize(80, 16777215));
+        left_bar->setMinimumSize(QSize(60, 500));
+        left_bar->setMaximumSize(QSize(80, 500));
         verticalLayout_2 = new QVBoxLayout(left_bar);
+        verticalLayout_2->setSpacing(0);
         verticalLayout_2->setObjectName("verticalLayout_2");
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         label = new QLabel(left_bar);
         label->setObjectName("label");
         label->setMinimumSize(QSize(0, 100));
@@ -285,6 +279,11 @@ public:
         verticalLayout->setObjectName("verticalLayout");
         play_btn = new QPushButton(widget);
         play_btn->setObjectName("play_btn");
+        QSizePolicy sizePolicy4(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(play_btn->sizePolicy().hasHeightForWidth());
+        play_btn->setSizePolicy(sizePolicy4);
         play_btn->setMinimumSize(QSize(45, 45));
         play_btn->setMaximumSize(QSize(45, 45));
         QIcon icon;
