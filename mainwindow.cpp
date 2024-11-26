@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "comparisondialog.h"
+#include "deviceselectiondialog.h"
 #include "devicesmgr.h"
 #include "ui_mainwindow.h"
 #include <QMouseEvent>
@@ -119,6 +120,19 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    DeviceSelectionDialog *dialog = new DeviceSelectionDialog(this);
+
+    // 连接设备选择信号
+    connect(dialog, &DeviceSelectionDialog::deviceSelected, this, [this](const Device &device) {
+        // 接收设备信息并进行操作
+        qDebug() << "Selected device for next step:" << device.ip;
+        // 在这里添加设备操作逻辑，比如切换到设备界面或加载设备数据
+    });
+
+    dialog->exec(); // 模态弹窗
+
+
+
     auto devicesMgr = DevicesMgr::GetInstance();
     const auto& devices = devicesMgr->getDevices();
     const auto& dev = devices[0];

@@ -14,7 +14,9 @@ SOURCES += \
     cameraview.cpp \
     comparisondialog.cpp \
     const.cpp \
+    deviceselectiondialog.cpp \
     devicesmgr.cpp \
+    hoverablelistwidget.cpp \
     main.cpp \
     mainwindow.cpp \
     singleton.cpp \
@@ -24,7 +26,9 @@ HEADERS += \
     cameraview.h \
     comparisondialog.h \
     const.h \
+    deviceselectiondialog.h \
     devicesmgr.h \
+    hoverablelistwidget.h \
     mainwindow.h \
     singleton.h \
     videoplayer.h
